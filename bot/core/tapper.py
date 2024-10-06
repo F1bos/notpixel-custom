@@ -24,7 +24,7 @@ from bot.utils import logger
 from bot.exceptions import InvalidSession
 from .headers import headers, headers_squads
 
-from random import randint, choices
+from random import randint, choices, uniform
 
 from ..utils.firstrun import append_line_to_file
 
@@ -289,6 +289,34 @@ class Tapper:
         paint_request.raise_for_status()
         logger.success(f"{self.session_name} | Painted {x} {y} with random color: {color}")
         await asyncio.sleep(delay=randint(delay_start, delay_end))
+    
+    async def make_paint_by_id_request(self, http_client: aiohttp.ClientSession, pixel_id: int, color: str, delay_start: float, delay_end: float):
+        paint_request = await http_client.post('https://notpx.app/api/v1/repaint/start',
+                                        json={"pixelId": pixel_id, "newColor": color})
+
+        paint_request.raise_for_status()
+        logger.success(f"{self.session_name} | Painted at {pixel_id} with color: {color}")
+
+        await asyncio.sleep(delay=uniform(delay_start, delay_end))
+
+    async def paint_3x(self, http_client: aiohttp.ClientSession, charges: int):
+        try:
+            pixels_req = await http_client.get(f'https://notpixel.kaynel.store/v1/pixels/?num_pixels={charges}')
+            pixels_req.raise_for_status()
+            pixels_json = await pixels_req.json()
+
+            logger.info(f"{self.session_name} | Painting 3x target: {pixels_json}")
+
+            for pixel_data in pixels_json:
+                pixel_id = pixel_data['pixel_id']
+                color = pixel_data['color']
+                await self.make_paint_by_id_request(http_client, pixel_id, color, 1.0, 3.0)
+
+        except Exception:
+            logger.exception(
+                f"{self.session_name} | Unknown error when painting 3x target"
+            )
+            await asyncio.sleep(delay=3)
 
     async def paint(self, http_client: aiohttp.ClientSession):
         try:
@@ -302,24 +330,8 @@ class Tapper:
             color = random.choice(colors)
 
             if settings.POINTS_3X:
-                with open('bot/points3x/data.json', 'r') as file:
-                    squares = json.load(file)
-
-                field = squares["data"][random.randint(0, len(squares) - 1)]
-                coords = field["coordinates"]
-                rect_coords = coords[random.randint(0, len(coords) - 1)]
-                color3x = field["color"]
-
-                for _ in range(charges//2):
-                    x = randint(rect_coords["topRight"][0], rect_coords["bottomLeft"][0])
-                    y = randint(rect_coords["topRight"][1], rect_coords["bottomLeft"][1])
-                    if randint(0, 10) == 5:
-                        color = random.choice(colors)
-                        logger.info(f"{self.session_name} | Changing color to {color}")
-                    await self.make_paint_request(http_client, x, y, color, 2, 5)
-
-                    await self.make_paint_request(http_client, x, y, color3x, 5, 10)
-            else:
+                await self.paint_3x(http_client, charges)  # Вызываем новую функцию для 3x
+            else:  # остальной код без изменений
                 for _ in range(charges):
                     x, y = randint(30, 970), randint(30, 970)
                     if randint(0, 10) == 5:
