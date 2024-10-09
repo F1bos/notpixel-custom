@@ -1,8 +1,4 @@
-[![Static Badge](https://img.shields.io/badge/Telegram-Channel-Link?style=for-the-badge&logo=Telegram&logoColor=white&logoSize=auto&color=blue)](https://t.me/hidden_coding)
-
-[![Static Badge](https://img.shields.io/badge/Telegram-Chat-yes?style=for-the-badge&logo=Telegram&logoColor=white&logoSize=auto&color=blue)](https://t.me/hidden_codding_chat)
-
-[![Static Badge](https://img.shields.io/badge/Telegram-Bot%20Link-Link?style=for-the-badge&logo=Telegram&logoColor=white&logoSize=auto&color=blue)](https://t.me/notpixel/app?startapp=f464869246)
+[![Static Badge](https://img.shields.io/badge/Telegram-Channel-Link?style=for-the-badge&logo=Telegram&logoColor=white&logoSize=auto&color=blue)](https://t.me/kaynel_crypto)
 
 ## Recommendation before use
 
@@ -48,9 +44,9 @@ Before you begin, make sure you have the following installed:
 3. Record the API_ID and API_HASH provided after registering your application in the .env file.
 
 ## Installation
-You can download the [**repository**](https://github.com/vadymfedorets/notpixel) by cloning it to your system and installing the necessary dependencies:
+You can download the [**repository**](https://github.com/F1bos/notpixel-custom) by cloning it to your system and installing the necessary dependencies:
 ```shell
-git clone https://github.com/vadymfedorets/notpixel
+git clone https://github.com/F1bos/notpixel-custom
 ```
 
 Then you can do automatic installation by typing:
