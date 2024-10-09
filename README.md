@@ -29,6 +29,7 @@
 | **AUTO_TASK** DANGEROUS |                         Auto tasks (default - False)                        |
 | **TASKS_TO_DO**AUTOTASK |              List of tasks for auto-task (default - all tasks)              |
 | **REF_ID**              |                      Thing that goes after startapp=                        |
+| **KN_STORE_API_KEY**    | If you want to use paint 3X you will need to set this key. You can get it here - https://t.me/kaynel_crypto/4 |
 
 ## Quick Start 📚
 
