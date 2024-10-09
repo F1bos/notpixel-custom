@@ -300,8 +300,12 @@ class Tapper:
         await asyncio.sleep(delay=uniform(delay_start, delay_end))
 
     async def paint_3x(self, http_client: aiohttp.ClientSession, charges: int):
+        if settings.KN_STORE_API_KEY is None:
+            logger.error(f"{self.session_name} | KN_STORE_API_KEY is not set, cannot paint 3x target. See - https://t.me/kaynel_crypto/4 for more info on how to get it.")
+            return
+
         try:
-            pixels_req = await http_client.get(f'https://notpixel.kaynel.store/v1/pixels/?num_pixels={charges}')
+            pixels_req = await http_client.get('https://notpixel.kaynel.store/v1/general/pixels/', params={'num_pixels': charges, 'api_key': settings.KN_STORE_API_KEY})
             pixels_req.raise_for_status()
             pixels_json = await pixels_req.json()
 

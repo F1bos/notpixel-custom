@@ -25,6 +25,7 @@ class Settings(BaseSettings):
     PAINT_REWARD_MAX_LEVEL: int = 7
     RECHARGE_SPEED_MAX_LEVEL: int = 11
     POINTS_3X: bool = False
+    KN_STORE_API_KEY: str = None
 
 
 settings = Settings()
